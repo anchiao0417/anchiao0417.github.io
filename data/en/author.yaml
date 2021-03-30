@@ -1,0 +1,17 @@
+# some information about you
+name: "ANCHIAO"
+nickname: "ANCHIAO ."
+# greeting message before your name. it will default to "Hi! I am" if not provided
+greeting: "Hi, I am"
+image: "images/404.png"
+# give your some contact information. they will be used in the footer
+contactInfo:
+  email: "anchiao0417@gmail.com"
+ # phone: "+0123456789"
+
+# some summary about what you do
+summary:
+  - I am a Software Developer
+  - I am a night owl
+  - I love greens, music and outdoors
+  - I love to work with some fun projects
