@@ -38,7 +38,7 @@ params:
     enable: true
 
   # background image of the landing page ###
-  background: "images/1.jpg"
+  background: "images/default-background.jpg"
 
   logo:
     main: images/main-logo.png
