@@ -168,6 +168,12 @@ img.right {
   font-size: 10pt;
 }
 
+.flag-icon {
+  width: 16px !important;
+  margin-top: 5px;
+  margin-right: 3px;
+}
+
 /* ====== codeblocks ====== */
 table {
   border-radius: 0.1rem;
@@ -247,10 +253,6 @@ a.header-anchor:hover i {
 }
 a.header-anchor code {
   color: #e83e8c;
-}
-
-.navbar-toggler {
-  display: none;
 }
 
 .content ul > ol,
