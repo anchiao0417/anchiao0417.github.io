@@ -3,11 +3,11 @@ title: "How to solve Homebrew installation failure?"
 date: 2021-04-07T08:06:25+06:00
 description: "xcode-select: error: invalid developer directory /Library/Developer/CommandLineTools"
 menu:
-sidebar:
-name: Homebrew Installation Troubleshooting
-identifier: Homebrew-installation
-parent : Homebrew
-weight: 10
+  sidebar:
+    name: Homebrew Installation Troubleshooting
+    identifier: macOS-directory-Homebrew-installation
+    parent : macOS-directory-Homebrew
+    weight: 10
 hero: images/homebrew.jpg
 ---
 

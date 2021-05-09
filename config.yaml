@@ -18,6 +18,9 @@ markup:
     endLevel: 6
     ordered: true
 
+# Enable Disqus forum
+disqusShortname: anchiao
+
 # Enable global emoji support
 enableEmoji: true
 
