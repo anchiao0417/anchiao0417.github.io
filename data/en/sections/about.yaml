@@ -8,17 +8,17 @@ section:
   template: sections/about.html
 
 # your designation
-designation: Software Engineer
+designation: Software Developer
 # your company information
 company:
   name: Hyweb Technology.
-  url: "https://www.example.com"
+  url: "https://www.hyweb.com.tw/"
 
 # your resume. this file path should be relative to you "static" directory
 resume: "files/resume.pdf"
 
 # a summary about you
-summary: 'I am a passionate software engineer with 6 months of working experience. I built OSS tools for [Kubernetes](https://kubernetes.io/) using GO. My tools help people to deploy their workloads in Kubernetes. Sometimes, I work on some fun projects such as writing a theme, etc.'
+summary: 'I am a full-stack developer with a genuine love for coding. I enjoy solving interesting problems and building user friendly web applications. I love listening to music and drinking coffee while programming :D'
 
 # your social links
 # give as many as you want. use font-awesome for the icons.
@@ -32,8 +32,20 @@ socialLinks:
 # currently supported colors: blue, yellow, pink, green, sky, orange
 softSkills:
   - name: Java
-    percentage: 85
+    percentage: 100
     color: blue
+  - name: JavaScript
+    percentage: 100
+    color: green
+  - name: SQL
+    percentage: 100
+    color: pink
   - name: Team Work
-    percentage: 90
+    percentage: 100
     color: yellow
+  - name: Communication
+    percentage: 100
+    color: orange
+  - name: Persistence
+    percentage: 100
+    color: sky
