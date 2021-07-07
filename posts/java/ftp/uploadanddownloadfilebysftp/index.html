@@ -1,0 +1,127 @@
+<!doctype html><html><head><title>Upload and Download File by SFTP</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/layouts/main.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/navigators/navbar.css><link rel=stylesheet href=/css/plyr.css><link rel=stylesheet href=/css/flag-icon.min.css><link href="https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600" rel=stylesheet><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css><link rel=icon type=image/png href=/images/cactus_hu7db09c4e795e3a5b4df5c7cf00c7ec97_38485_42x0_resize_box_2.png><link rel=stylesheet href=/css/style.css><meta name=description content="write Java code that uploads a file from local computer to a remote SFTP server, or download a file from remote server to local directory"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-dark.min.css><link rel=stylesheet href=/css/layouts/single.css><link rel=stylesheet href=/css/navigators/sidebar.css></head><body data-spy=scroll data-target=#TableOfContents data-offset=80><div class="container-fluid bg-dimmed wrapper"><nav class="navbar navbar-expand-xl top-navbar final-navbar shadow"><div class=container><button class="navbar-toggler navbar-light" id=sidebar-toggler type=button onclick=toggleSidebar()>
+<span class=navbar-toggler-icon></span></button>
+<a class=navbar-brand href=/><img src=/images/cactus_hu7db09c4e795e3a5b4df5c7cf00c7ec97_38485_42x0_resize_box_2.png alt=Logo>Anchiao</a>
+<button class="navbar-toggler navbar-light" id=toc-toggler type=button onclick=toggleTOC()>
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse lang-selector" id=top-nav-items><ul class="navbar-nav ml-auto"></ul></div></div><img src=/images/cactus_hu7db09c4e795e3a5b4df5c7cf00c7ec97_38485_42x0_resize_box_2.png class=d-none id=main-logo alt=Logo>
+<img src=/images/cactus_hu7db09c4e795e3a5b4df5c7cf00c7ec97_38485_42x0_resize_box_2.png class=d-none id=inverted-logo alt="Inverted Logo"></nav><section class=sidebar-section id=sidebar-section><div class=sidebar-holder><div class=sidebar id=sidebar><form class=mx-auto method=get action=https://anchiao0417.github.io/search><input type=text name=keyword placeholder=Search data-search id=search-box></form><div class=sidebar-tree><ul class=tree id=tree><li id=list-heading><a href=/posts data-filter=all>Posts</a></li><div class=subtree><li><i class="fas fa-minus-circle"></i><a class=active href=/posts/java/>JAVA</a><ul class=active><li><i class="fas fa-minus-circle"></i><a class=active href=/posts/java/ftp/>File Transfer</a><ul class=active><li><a class=active href=/posts/java/ftp/uploadanddownloadfilebysftp/ title="Upload and Download a File by SFTP">Upload and Download a File by SFTP</a></li></ul></li></ul></li><li><i class="fas fa-plus-circle"></i><a href=/posts/macos-directory/>macOS</a><ul><li><i class="fas fa-plus-circle"></i><a href=/posts/macos-directory/homebrew/>Homebrew</a><ul><li><a href=/posts/macos-directory/homebrew/homebrew-installation/ title="Homebrew Installation Troubleshooting">Homebrew Installation Troubleshooting</a></li></ul></li></ul></li><li><i class="fas fa-plus-circle"></i><a href=/posts/sql/>SQL</a><ul><li><a href=/posts/sql/mssql/temp-table/ title="MSSQL temporary table">MSSQL temporary table</a></li></ul></li></div></ul></div></div></div></section><section class=content-section id=content-section><div class=content><div class="container p-0 read-area"><div class="hero-area col-sm-12" id=hero-area style=background-image:url(https://anchiao0417.github.io/posts/java/ftp/uploadanddownloadfilebysftp/images/upload.jpg)></div><div class=page-content><div class="author-profile ml-auto align-self-lg-center"><img class=rounded-circle src=/images/404.png alt="Author Image"><h5 class=author-name>Anchiao Chang</h5><p>July 6, 2021</p></div><div class=title><h1>Upload and Download File by SFTP</h1></div><div class=post-content id=post-content><p>When data is sent to another party, it&rsquo;s potentially exposed to outside entities on the Internet, FTP and SFTP are two common file transfer options, Learning more about them will make a proper choice for sharing your company’s data.</p><h2 id=ftp-vs-sftp>FTP v.s SFTP</h2><p>FTP is file transfer protocol. It&rsquo;s a simple way of transferring data, making data readable for anyone who intercepts it. While this is fine if you’re just sending unimportant files.</p><p>SFTP is Secure File Transfer Protocol, it means what it says, safer than FTP.
+SFTP uses SSH (or secure shell) encryption to protect data from opening to potential breaches and compromises to the company.</p><h2 id=example>Example</h2><p>We can upload or download any files, including a text, a pictrure or audios by FTP and SFTP.
+Here&rsquo;s the demonstration of how to do code it. First let&rsquo;s put JSch dependency in pom.xml so we can integrate its functionality into Java programs.</p><pre><code>&lt;dependency&gt;
+	&lt;groupId&gt;com.jcraft&lt;/groupId&gt;
+	&lt;artifactId&gt;jsch&lt;/artifactId&gt;
+	&lt;version&gt;0.1.55&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h2 id=download-file>Download File</h2><p>import the following classes</p><pre><code>import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
+</code></pre><p>Instantiates the Session object with given username, host and port.
+This Session represents a connection to a SSH server. One session can contain multiple Channels of various types, created with openChannel(), opened with connect() and closed with disconnect().</p><pre><code>        Session session = null;
+        Channel channel = null;
+
+        //Your Custom connection infos, usually encapsulate these infos inside a bean
+        String UserId = &quot;myId&quot;;
+        String host = &quot;10.10.10.10&quot;;
+        int port = 22;
+        String password = &quot;myPwd&quot;;
+        String remotePath = &quot;/home/myRemotePath&quot;;
+        String remoteFileName = &quot;myFile&quot;;
+        String localDownloadFolder = &quot;C:/downloads&quot;;
+
+        try {
+            JSch jsch = new JSch();
+            session = jsch.getSession(UserId, host, port);
+
+            // connect without verifying SSH host keys
+            session.setConfig(&quot;StrictHostKeyChecking&quot;, &quot;no&quot;);
+            session.setPassword(password);
+            session.connect();
+
+            channel = session.openChannel(&quot;sftp&quot;);
+            channel.connect();
+            ChannelSftp channelSftp = (ChannelSftp) channel;
+
+            channelSftp.cd(remotePath);
+
+            int download_index = 0;
+                try {
+                     channelSftp.get(remoteFileName, localDownloadFolder);
+                    } catch (SftpException sftpException) {
+                     LOGGER.error(&quot;Download file fail.&quot; , sftpException);
+                   } 
+        } catch (Exception exception) {
+            LOGGER.error(&quot;------ Sftp download file fail.&quot; ,exception);
+            throw exception;
+        } finally {
+            // close SFTP
+            channelSftp.exit();
+            SftpUtils.clodeSftpConnection(channel,session);
+        }
+    
+</code></pre><h2 id=upload-file>Upload File</h2><p>For uploading file, 2 more imports are needed</p><pre><code>import java.io.File;
+import java.io.FileInputStream;
+</code></pre><p>The code cover up most of the exceptions might encounter while uploading with try catch blocks and loggers.</p><pre><code>        Session session = null;
+        Channel channel = null;
+        //Your Custom connection infos, usually encapsulate these infos inside a bean
+        String UserId = &quot;myId&quot;;
+        String host = &quot;10.10.10.10&quot;;
+        int port = 22;
+        String password = &quot;myPwd&quot;;
+        String remotePath = &quot;/home/myRemotePath&quot;;
+        String localFilePath = &quot;C:/downloads/file.txt&quot;;
+
+        File uploadFile = new File(localFilePath);
+        String uploadFileName = uploadFile.getName(); //file.txt
+
+        try (FileInputStream fis = new FileInputStream(uploadFile)) {
+            JSch jsch = new JSch();
+            session = jsch.getSession(UserId, host, port);
+
+            // connect without verifying SSH host keys
+            session.setConfig(&quot;StrictHostKeyChecking&quot;, &quot;no&quot;);
+            session.setPassword(password);
+            session.connect();
+
+            channel = session.openChannel(&quot;sftp&quot;);
+            channel.connect();
+            ChannelSftp channelSftp = (ChannelSftp) channel;
+
+            try {
+                channelSftp.mkdir(remotePath);
+
+            } catch (SftpException sftpException) {
+                if(!StringUtils.equals(&quot;Failure&quot;,sftpException.getMessage())){
+                    LOGGER.error(&quot;fail to create SFTP direcrory , reason is {} &quot;,sftpException);
+                }
+            }
+            // combine remoteFilePath and fileName
+            String remoteFileEntirePath = remotePath + &quot;/&quot; + uploadFileName;
+            LOGGER.info(&quot;*** Entire path of remote file is = {}&quot;, remoteFileEntirePath);
+            channelSftp.put(fis, remoteFileEntirePath, ChannelSftp.OVERWRITE);
+            LOGGER.info(&quot;======&gt;Upload Success!&quot;);
+        } catch (Exception exception) {
+            LOGGER.error(&quot;upload file to remote ftp fail.&quot;, exception);
+        } finally {
+            //close SFTP connection
+            try {
+                if(channel!=null &amp;&amp; channel.isConnected()){
+                    channel.disconnect();
+                    LOGGER.debug(&quot;Disconnect channel =&gt; {}&quot;,!channel.isConnected() );
+                    LOGGER.debug(&quot;Close channel =&gt; {}&quot;,channel.isClosed());
+                }
+                if(session!=null &amp;&amp; session.isConnected()){
+                    session.disconnect();
+                    LOGGER.debug(&quot;Disconnect session =&gt; {}&quot;,!session.isConnected());
+                }
+            } catch (Exception exception) {
+                LOGGER.error(&quot;------ Closed Sftp fail.&quot;, exception);
+            }
+        }
+
+    }
+</code></pre></div><div class=btn-improve-page><a href=https://github.com/anchiao0417/anchiao0417.github.io/edit//content/posts/JAVA/FTP/UploadandDownloadFilebySFTP/index.md title="Improve this page" target=_blank rel=noopener><i class="fas fa-code-branch"></i>Improve this page</a></div><hr><div class="row next-prev-navigator"><div class="col-md-6 previous-article"><a href=/search/ title="Search Results" class="btn btn-outline-info"><div><i class="fas fa-chevron-circle-left"></i>Prev</div><div class=next-prev-text>Search Results</div></a></div><div class="col-md-6 next-article"><a href=/posts/sql/mssql/temp-table/ title="MSSQL temporary table" class="btn btn-outline-info"><div>Next <i class="fas fa-chevron-circle-right"></i></div><div class=next-prev-text>MSSQL temporary table</div></a></div></div><hr><div id=disqus_thread></div><script type=text/javascript>(function(){if(window.location.hostname=="localhost")return;var dsq=document.createElement("script");dsq.type="text/javascript";dsq.async=true;var disqus_shortname="anchiao";dsq.src="//"+disqus_shortname+".disqus.com/embed.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the
+<a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com/ class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div></div></div><a id=scroll-to-top class=btn><i class="fas fa-chevron-circle-up"></i></a></section><section class=toc-section id=toc-section><div class=toc-holder><h5 class="text-center pl-3">Table of Contents</h5><hr><div class=toc><nav id=TableOfContents><ol><li><a href=#ftp-vs-sftp>FTP v.s SFTP</a></li><li><a href=#example>Example</a></li><li><a href=#download-file>Download File</a></li><li><a href=#upload-file>Upload File</a></li></ol></nav></div></div></section></div><footer class="container-fluid text-center align-content-center footer pb-2"><div class="container pt-5"><div class="row text-left"><div class="col-md-4 col-sm-12"><h5>Navigation</h5><ul><li class=nav-item><a class=smooth-scroll href=/#about>About</a></li><li class=nav-item><a class=smooth-scroll href=/#recent-posts>Recent Posts</a></li></ul></div><div class="col-md-4 col-sm-12"><h5>Contact me:</h5><ul><li><span>Email:</span> <span>anchiao0417@gmail.com</span></li></ul></div><div class="col-md-4 col-sm-12"><p>Stay up to date with email notification</p><form><div class=form-group><input type=email class=form-control id=exampleInputEmail1 aria-describedby=emailHelp placeholder="Enter email">
+<small id=emailHelp class="form-text text-muted">We'll never share your email with anyone else.</small></div><button type=submit class="btn btn-info">Submit</button></form></div></div></div><hr><div class=container><div class="row text-left"><div class=col-md-4><a id=theme href=https://github.com/hossainemruz/toha target=_blank rel=noopener><img src=/images/theme-logo_hu8376fd15465fef26ffe66b6bcf0ca686_13669_32x0_resize_box_2.png alt="Toha Theme Logo">
+Toha</a></div><div class="col-md-4 text-center">© 2021 Copyright.</div><div class="col-md-4 text-right"><a id=hugo href=https://gohugo.io/ target=_blank rel=noopener>Powered by
+<img src=/images/hugo-logo.svg alt="Hugo Logo" height=18></a></div></div></div></footer><script type=text/javascript src=/js/jquery-3.4.1.min.js></script><script type=text/javascript src=/js/popper.min.js></script><script type=text/javascript src=/js/bootstrap.min.js></script><script type=text/javascript src=/js/navbar.js></script><script type=text/javascript src=/js/plyr.js></script><script type=text/javascript src=/js/main.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js></script><script src=/js/single.js></script><script>hljs.initHighlightingOnLoad();</script></body></html>
