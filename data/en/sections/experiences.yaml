@@ -1,0 +1,49 @@
+# section information
+section:
+  name: Experiences
+  id: experiences
+  enable: true
+  weight: 3
+  showOnNavbar: true
+  # Can optionally hide the title in sections
+  # hideTitle: true 
+
+# Your experiences
+experiences:
+- company:
+    name: Hyweb Technology Co.
+    url: "https://www.hyweb.com.tw/"
+    location: Taipei
+    # company overview
+    overview: Hyweb Technology is a company devoted to digital content service, knowledge management, content management and banking solutions.
+  positions:
+  - designation: Junior Software Engineer
+    start: Nov 2020
+    # don't provide end date if you are currently working there. It will be replaced by "Present"
+    # end: Dec 2020
+    # give some points about what was your responsibilities at the company.
+    responsibilities:
+    - Design and develop batch systems for Taiwan National Immigration Agency.
+    - Build APIs and online applications such as [eGov](https://www.gov.tw/Default.aspx), [OAP](https://oap.moi.gov.tw/)
+    - Deploy and maintain software reliability.
+
+ # - designation: Junior Software Engineer
+ #   start: Nov 2017
+ #   end: Oct 2019
+ #   responsibilities:
+ #   - Implement and test xyz feature for abc tool.
+ #   - Support client for abc tool.
+ #   - Learn k,d,w technology for xyz.
+
+- company:
+    name: Institute for Information Industry.
+    url: "https://web.iii.org.tw/"
+    location: DaAn District, Taipei
+    overview: Training and education of talents in IT field and building infrastructure for national technology.
+  positions:
+  - designation: Trainee
+    start: Mar 2020
+    end: Nov 2020
+    responsibilities:
+    - Collaborated with 7 team members to built an interactive and user-centered [eCommerce project](https://github.com/chmonk/PodCastProject).
+    - Daily up to 12+ hrs of study in fundamental knowledge of programming.

@@ -23,9 +23,30 @@ summary: 'I am a full-stack developer with a genuine love for coding. I enjoy so
 # your social links
 # give as many as you want. use font-awesome for the icons.
 socialLinks:
-  - name: Github
-    icon: "fab fa-github"
-    url: "https://github.com/anchiao0417/anchiao0417.github.io"
+- name: Email
+  icon: "fas fa-envelope"
+  url: "anchiao0417@gmail.com"
+
+- name: Github
+  icon: "fab fa-github"
+  url: "https://github.com/anchiao0417"
+
+- name: LinkedIn
+  icon: "fab fa-linkedin"
+  url: "www.linkedin.com/in/anchiao-chang"
+
+#- name: Stackoverflow
+#  icon: "fab fa-stack-overflow"
+#  url: "#"
+
+#- name: Twitter
+#  icon: "fab fa-twitter"
+#  url: "#"
+
+- name: Facebook
+  icon: "fab fa-facebook"
+  url: "https://www.facebook.com/anchiao.chang"
+    
 
 # your soft skills
 # give the percentage between 50 to 100 with 5 intervals.
